@@ -1,3 +1,12 @@
-calculate pi: {
-void calculate_pi(int g,unsigned int*result_ptr){volatile unsigned int*L=result_ptr;volatile unsigned int*H=result_ptr+1;*H=0x30000;*L=0;int n=g*7000;if(n>1e5) n=1e5;for(int i=1;i<=n;i++){unsigned int d=i*2,m=d*(d+1)*(d+2),h=0x40000/m,r=0x40000%m,l=((unsigned long)r*0xFFFFFFFF)/m,p=*L;if(i&1){*L+=l;if(*L<p)(*H)++;*H+=h;} else{*L-=l;if(*L>p)(*H)--;*H-=h;}}}
+calculate pi: {{
+    void calculate_pi(int g,unsigned int*result_ptr){volatile unsigned int*L=result_ptr;volatile unsigned int*H=result_ptr+1;*H=0x30000;*L=0;int n=g*7000;if(n>1e5) n=1e5;for(int i=1;i<=n;i++){unsigned int d=i*2,m=d*(d+1)*(d+2),h=0x40000/m,r=0x40000%m,l=((unsigned long)r*0xFFFFFFFF)/m,p=*L;if(i&1){*L+=l;if(*L<p)(*H)++;*H+=h;} else{*L-=l;if(*L>p)(*H)--;*H-=h;}}}
+  }
+  void caller() {
+      unsigned int my_pi[2]; // Temporary 8-byte space
+      
+      calculate_pi(14, my_pi); // Function fills my_pi
+      
+      // Use my_pi here for your "other thing"
+      
+  } // Memory is automatically "released" here when the caller finishes
 }
